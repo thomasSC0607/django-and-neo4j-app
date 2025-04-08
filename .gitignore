@@ -1,0 +1,12 @@
+# .gitignore
+
+__pycache__/
+*.pyc
+*.pyo
+*.sqlite3
+.env
+*.log
+venv/
+*.neo4j
+.DS_Store
+.idea/

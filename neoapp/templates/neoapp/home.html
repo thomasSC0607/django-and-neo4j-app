@@ -1,0 +1,93 @@
+<!-- templates/home.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - NBA Graph</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .circle {
+            width: fit-content;
+            padding: 10px 20px;
+            border-radius: 50%;
+            background-color: #f0f0f0;
+            border: 2px solid #000;
+            display: inline-block;
+            margin: 10px;
+            font-weight: bold;
+        }
+
+        .arrow {
+            font-size: 2rem;
+            margin: 0 10px;
+        }
+
+        .connection {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body class="container mt-4">
+    <h1 class="text-center mb-4">🏀 NBA Graph Dashboard</h1>
+
+    <div class="d-flex justify-content-center gap-3 mb-5">
+        <a href="{% url 'add_player' %}" class="btn btn-primary">➕ Añadir Jugador</a>
+        <a href="{% url 'add_team' %}" class="btn btn-success">➕ Añadir Equipo</a>
+        <a href="{% url 'add_coach' %}" class="btn btn-warning">➕ Añadir Entrenador</a>
+        <a href="{% url 'player_to_team' %}" class="btn btn-info">🔗 Asignar Jugador a Equipo</a>
+        <a href="{% url 'coach_to_team' %}" class="btn btn-secondary">🔗 Asignar Entrenador a Equipo</a>
+        <a href="{% url 'coach_to_player' %}" class="btn btn-dark">🔗 Asignar Entrenador a Jugador</a>
+        <a href="{% url 'teammates' %}" class="btn btn-dark">🔗 Assign Teammates</a>
+    </div>
+
+    <h2 class="text-center mb-3">📌 Conexiones actuales</h2>
+
+    <h4 class="mt-4">Jugadores y sus Equipos</h4>
+    {% for player, team in player_team_connections %}
+        <div class="connection">
+            <div class="circle">{{ player }}</div>
+            <div class="arrow">&#10230;</div>
+            <div class="circle">{{ team }}</div>
+        </div>
+    {% empty %}
+        <p>No hay relaciones jugador-equipo registradas aún.</p>
+    {% endfor %}
+
+    <h4 class="mt-5">Entrenadores y sus Jugadores</h4>
+    {% for coach, player in coach_player_connections %}
+        <div class="connection">
+            <div class="circle">{{ coach }}</div>
+            <div class="arrow">&#10230;</div>
+            <div class="circle">{{ player }}</div>
+        </div>
+    {% empty %}
+        <p>No hay relaciones entrenador-jugador registradas aún.</p>
+    {% endfor %}
+
+    <h4 class="mt-5">Entrenadores y sus Equipos</h4>
+    {% for coach, team in coach_team_connections %}
+        <div class="connection">
+            <div class="circle">{{ coach }}</div>
+            <div class="arrow">&#10230;</div>
+            <div class="circle">{{ team }}</div>
+        </div>
+    {% empty %}
+        <p>No hay relaciones entrenador-equipo registradas aún.</p>
+    {% endfor %}
+
+    <h4 class="mt-5">Players and their Teammates</h4>
+    {% for player, teammate in teammates_connection %}
+        <div class="connection">
+            <div class="circle">{{ player }}</div>
+            <div class="arrow">&#10230;</div>
+            <div class="circle">{{ teammate }}</div>
+        </div>
+    {% empty %}
+        <p>There are not relationships player-teammate registered yet.</p>
+    {% endfor %}
+</body>
+</html>
